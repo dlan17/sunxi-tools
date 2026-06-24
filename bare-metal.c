@@ -493,19 +493,20 @@ static void clock_init_uart(const struct soc_info *soc)
 
 void gpio_init(const struct soc_info *soc)
 {
-	pio_base = soc->pio.base;
+	pio_base = soc->pio.base + soc->pio.offs;
 
 	if (soc->flags & FLAG_NEW_GPIO) {
 		/* GPIO V2 */
-		pio_bank_size = 0x30;
-		pio_dat_off = 0x10;
-		pio_pull_off = 0x24;
+		pio_bank_size = soc->pio.size;
+		pio_pull_off = soc->pio.pull;
 	} else {
 		/* GPIO V1 */
 		pio_bank_size = 0x24;
-		pio_dat_off = 0x10;
 		pio_pull_off = 0x1c;
 	}
+
+	/* All SoC has same GPIO data set register offset */
+	pio_dat_off = 0x10;
 
 	if (soc->flags & FLAG_UART_ON_PORTF) {
 		/* Disable normal UART0 pins to avoid conflict */
