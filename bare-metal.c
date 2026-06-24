@@ -451,6 +451,7 @@ const struct soc_info *sunxi_detect_soc(void)
 {
 	int variant = 0;
 	u32 soc_id;
+#if 0
 	u32 midr;
 	u32 reg;
 
@@ -480,7 +481,8 @@ const struct soc_info *sunxi_detect_soc(void)
 		variant = sunxi_get_sun5i_variant();
 		break;
 	}
-
+#endif
+	soc_id = 0x1922;
 	return find_soc_info(soc_id, variant);
 }
 
